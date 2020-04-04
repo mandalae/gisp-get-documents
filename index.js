@@ -91,18 +91,18 @@ exports.handler = async (event) => {
                         done(null, items);
                     });
                 } else {
-                    let params = {
+                    let s3Params = {
                       Bucket: bucketName,
                       Delimiter: '/'
                     };
 
                     if (folderName.length > 0){
-                        params.Prefix = folderName.replace('_', ' ') + '/';
+                        s3Params.Prefix = folderName.replace('_', ' ') + '/';
                     }
 
                     console.log(params);
 
-                    var params = {
+                    const dynamoParams = {
                         TableName: "gisp-online-resources",
                         ProjectionExpression: "folder, url, title, lastUpdated",
                         FilterExpression: "#folder = :folder",
@@ -114,14 +114,14 @@ exports.handler = async (event) => {
                         }
                     };
 
-                    docClient.scan(params, (err, onlineResourcesData) => {
+                    docClient.scan(dynamoParams, (err, onlineResourcesData) => {
                         let onlineResources = [];
                         if (data.Items){
                             onlineResources = onlineResourcesData.Items;
                         }
                         console.log(err, onlineResources);
 
-                        s3.listObjects(params, function(err, s3Data) {
+                        s3.listObjects(s3Params, function(err, s3Data) {
                             console.log(s3Data);
                             let s3Items = s3Data.Contents;
                             const itemsAndResources = s3Items.concat(onlineResources);
