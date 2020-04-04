@@ -104,16 +104,17 @@ exports.handler = async (event) => {
 
                     const dynamoParams = {
                         TableName: "gisp-online-resources",
-                        ProjectionExpression: "folder, url, title, lastUpdated",
+                        ProjectionExpression: "#folder, #url, title, lastUpdated",
                         FilterExpression: "#folder = :folder",
                         ExpressionAttributeNames: {
                             "#folder": "folder",
+                            "#url": "url"
                         },
                         ExpressionAttributeValues: {
                              ":folder": folderName
                         }
                     };
-
+                    console.log(dynamoParams);
                     docClient.scan(dynamoParams, (err, onlineResourcesData) => {
                         let onlineResources = [];
                         if (onlineResourcesData && onlineResourcesData.Items){
