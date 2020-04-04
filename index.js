@@ -102,15 +102,32 @@ exports.handler = async (event) => {
 
                     console.log(params);
 
-                    s3.listObjects(params, function(err, data) {
-                        console.log(data);
-                        let items = data.Contents;
-                        if (folderName.length === 0) {
-                            data.CommonPrefixes.forEach(item => {
-                                items.push(item.Prefix);
-                            });
+                    var params = {
+                        TableName: "gisp-online-resources",
+                        ProjectionExpression: "folder, url, title, lastUpdated",
+                        FilterExpression: "#folder = :folder",
+                        ExpressionAttributeNames: {
+                            "#folder": "folder",
+                        },
+                        ExpressionAttributeValues: {
+                             ":folder": folderName
                         }
-                        done(err, items);
+                    };
+
+                    docClient.scan(params, (err, onlineResourcesData) => {
+                        let onlineResources = [];
+                        if (data.Items){
+                            onlineResources = onlineResourcesData.Items;
+                        }
+                        console.log(err, onlineResources);
+
+                        s3.listObjects(params, function(err, s3Data) {
+                            console.log(s3Data);
+                            let s3Items = s3Data.Contents;
+                            const itemsAndResources = s3Items.concat(onlineResources);
+                            console.log(itemsAndResources);
+                            done(err, itemsAndResources);
+                        });
                     });
                 }
                 break;
