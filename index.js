@@ -74,7 +74,7 @@ exports.handler = async (event) => {
                         console.log(`${userItem.email} has accessed folder: ${folderName}`);
                     }
                 } else {
-                    credentialError('No login hash found');
+                    // credentialError('No login hash found');
                 }
 
                 if (folderName && folderName === 'Online Resources'){
