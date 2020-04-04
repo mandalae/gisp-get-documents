@@ -116,7 +116,7 @@ exports.handler = async (event) => {
 
                     docClient.scan(dynamoParams, (err, onlineResourcesData) => {
                         let onlineResources = [];
-                        if (onlineResourcesData.Items){
+                        if (onlineResourcesData && onlineResourcesData.Items){
                             onlineResources = onlineResourcesData.Items;
                         }
                         console.log(err, onlineResources);
