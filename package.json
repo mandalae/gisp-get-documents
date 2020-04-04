@@ -1,0 +1,17 @@
+{
+  "name": "gp-covid-response-backend-documents",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "npm test && rm -rf ./artifact || true && mkdir artifact && cp -R src artifact/ || true && cp -R node_modules artifact/ && cp index.js artifact/ && cp package.json artifact/ && cd artifact && zip -r covid-backend.zip ./*",
+    "test": "echo \"Error: no test specified\"",
+    "deploy": "npm run build && cd deployment && rm plan.tf || true && terraform init && terraform import aws_lambda_function.GPCovidResponse-Documents GPCovidResponse-Documents || true && terraform plan -out plan.tf && terraform apply plan.tf",
+    "deploy:sdlc": "npm run build && cd deployment && rm plan.tf || true && ../terraform init && ../terraform import aws_lambda_function.GPCovidResponse-Documents GPCovidResponse-Documents || true && ../terraform plan -out plan.tf && ../terraform apply plan.tf"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.643.0"
+  }
+}

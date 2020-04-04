@@ -1,0 +1,8 @@
+artifact
+node_modules
+
+.terraform
+plan.tf
+terraform.*
+
+.DS_Store
