@@ -167,7 +167,6 @@ function getAllDocumentsFromS3() {
       function (err, data) {
         if (err) return reject(err);
 
-        console.log("data from s3", data);
         const documents = data.Contents || [];
         resolve(documents);
       }
