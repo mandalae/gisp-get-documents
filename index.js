@@ -168,6 +168,7 @@ function getAllDocumentsFromS3() {
       function (err, data) {
         if (err) return reject(err);
 
+        console.log("data from s3", data);
         const documents = data.Contents || [];
         resolve(documents);
       }
@@ -203,10 +204,10 @@ function getLatestDocumentsHandler(event) {
 
         try {
           const links = await getAllLinksFromDynamoDB();
-          console.log("Successfully fetched links");
+          console.log("Successfully fetched links", links.length);
 
           const documents = await getAllDocumentsFromS3();
-          console.log("Successfully fetched documents");
+          console.log("Successfully fetched documents", documents.length);
 
           const allResources = links.concat(documents);
           const allResourcesSorted = allResources.sort((a, b) => {
