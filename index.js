@@ -163,7 +163,6 @@ function getAllDocumentsFromS3() {
     s3.listObjects(
       {
         Bucket: "gp-sharing-bucket",
-        Delimiter: "/",
       },
       function (err, data) {
         if (err) return reject(err);
