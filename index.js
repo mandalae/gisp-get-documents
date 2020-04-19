@@ -30,15 +30,15 @@ const loginHashCheck = (loginHash) => {
   });
 };
 
-exports.handler = async (event) => {
-  if (event.httpMethod === "GET" && event.queryStringParameters.latest) {
-    return getLatestDocuments.handler(event);
-  } else {
-    return getDocumentsHandler(event);
-  }
-};
+// exports.handler = async (event) => {
+//   if (event.httpMethod === "GET" && event.queryStringParameters.latest) {
+//     return getLatestDocuments.handler(event);
+//   } else {
+//     return getDocumentsHandler(event);
+//   }
+// };
 
-function getDocumentsHandler(event) {
+exports.handler = async (event) => {
   return new Promise(async (resolve, reject) => {
     let response = {
       statusCode: 200,
@@ -145,4 +145,4 @@ function getDocumentsHandler(event) {
         done(new Error(`Unsupported method "${event.httpMethod}"`));
     }
   });
-}
+};
